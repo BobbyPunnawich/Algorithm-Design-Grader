@@ -1,19 +1,18 @@
 #include <iostream>
-#include <algorithm>
 #include <vector>
+#include <algorithm>
 
 using namespace std;
 
-int binary_search(vector<int> &v, int k, int start, int stop)
+int binary_search_near(int q, vector<int> &v, int start, int stop)
 {
-    // Trivial Case
     if (start == stop)
     {
-        if (start == 0 && v[start] != k)
+        if (start == 0 && q < v[start])
         {
             return -1;
         }
-        else if (k >= v[start])
+        else if (q >= v[start])
         {
             return v[start];
         }
@@ -22,36 +21,30 @@ int binary_search(vector<int> &v, int k, int start, int stop)
             return v[start - 1];
         }
     }
+    int m = (start + stop) / 2;
+    if (q <= v[m])
+    {
+        return binary_search_near(q, v, start, m);
+    }
     else
     {
-        // middle
-        int m = (start + stop) >> 1;
-        // left
-        if (v[m] >= k)
-        {
-            return binary_search(v, k, start, m);
-        }
-        // right
-        else
-        {
-            return binary_search(v, k, m + 1, stop);
-        }
+        return binary_search_near(q, v, m + 1, stop);
     }
 }
 
 int main()
 {
-    int N, M;
-    cin >> N >> M;
-    vector<int> v(N);
-    for (int i = 0; i < N; i++)
+    int n, m;
+    cin >> n >> m;
+    vector<int> v(n);
+    for (int i = 0; i < n; i++)
     {
         cin >> v[i];
     }
-    for (int i = 0; i < M; i++)
+    for (int i = 0; i < m; i++)
     {
-        int k;
-        cin >> k;
-        cout << binary_search(v, k, 0, N - 1) << endl;
+        int q;
+        cin >> q;
+        cout << binary_search_near(q, v, 0, n - 1) << endl;
     }
 }

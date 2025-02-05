@@ -4,7 +4,7 @@
 
 using namespace std;
 
-void permutation_before(int n, int m, vector<int> &sol, vector<bool> &used, int len, map<int, int> &order)
+void permu_before(int n, int m, int len, vector<int> &sol, map<int, int> &before, vector<bool> &used)
 {
     if (len < n)
     {
@@ -12,11 +12,11 @@ void permutation_before(int n, int m, vector<int> &sol, vector<bool> &used, int 
         {
             if (!used[i])
             {
-                if (order.find(i) == order.end() || used[order[i]])
+                if (before.find(i) == before.end() || used[before[i]])
                 {
                     used[i] = true;
                     sol[len] = i;
-                    permutation_before(n, m, sol, used, len + 1, order);
+                    permu_before(n, m, len + 1, sol, before, used);
                     used[i] = false;
                 }
             }
@@ -36,14 +36,14 @@ int main()
 {
     int n, m;
     cin >> n >> m;
-    map<int, int> order;
-    vector<bool> used(n, false);
-    vector<int> sol(n);
+    map<int, int> before;
     for (int i = 0; i < m; i++)
     {
-        int a, b;
-        cin >> a >> b;
-        order[b] = a;
+        int first, last;
+        cin >> first >> last;
+        before[last] = first;
     }
-    permutation_before(n, m, sol, used, 0, order);
+    vector<int> sol(n);
+    vector<bool> used(n, false);
+    permu_before(n, m, 0, sol, before, used);
 }

@@ -5,17 +5,17 @@ using namespace std;
 
 int main()
 {
-    int N;
+    int n;
+    cin >> n;
+    vector<int> arr(n);
+    cin >> arr[0];
     int count = 0;
-    cin >> N;
-    vector<int> v(N);
-    cin >> v[0];
-    for (int i = 1; i < N; i++)
+    for (int i = 1; i < n; i++)
     {
-        cin >> v[i];
+        cin >> arr[i];
         for (int j = 0; j < i; j++)
         {
-            if (v[i] < v[j])
+            if (arr[j] > arr[i])
             {
                 count++;
             }
